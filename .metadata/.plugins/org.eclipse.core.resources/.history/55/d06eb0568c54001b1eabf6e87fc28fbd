@@ -1,0 +1,14 @@
+package model;
+
+public class LoginLogic {
+	public boolean execute (User user) {
+//		if (user.getPass().equals("1234")) {
+//			return true;
+//		}
+		//name、passともに英子文字と数字で３文字以上
+		if (user.getName().matches("[a-z0-9]{3,}") && user.getPass().matches("[a-z0-9]{3,}")) {
+			return true;
+		}
+		return false;
+	}
+}
