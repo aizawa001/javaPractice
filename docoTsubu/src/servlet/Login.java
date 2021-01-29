@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -11,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.LoginLogic;
-import model.User;
+import model.entity.User;
+import model.logic.LoginLogic;
 
 
 @WebServlet("/Login")
@@ -22,7 +23,7 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//リクエストパラメーターの取得
 		request.setCharacterEncoding("UTF-8");
-		int id = Integer.parseInt(request.getParameter("id"));
+		String id = request.getParameter("id");
 		String pass = request.getParameter("pass");
 
 		User user = new User(id, pass);
@@ -31,11 +32,20 @@ public class Login extends HttpServlet {
 		String jdbcUrl = (String) application.getAttribute("jdbcUrl");
 		String dbUser = (String) application.getAttribute("dbUser");
 		String dbPass = (String) application.getAttribute("dbPass");
-		User loginUser = loginLogic.execute(user, jdbcUrl, dbUser, dbPass);
+		User loginUser = null;
+		try {
+			loginUser = loginLogic.execute(user, jdbcUrl, dbUser, dbPass);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+
+		HttpSession session = request.getSession();
 		if (loginUser != null) {
-			HttpSession session = request.getSession();
 			session.setAttribute("loginUser",loginUser);
+		} else {
+			String errorMsg = "指定のユーザーが見つかりませんでした。";
+			session.setAttribute("errorMsg", errorMsg);
 		}
 
 

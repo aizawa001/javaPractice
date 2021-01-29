@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="model.HealthCheckLogic"/>
     <fullyQualifiedTypeName name="model.SiteEV"/>
     <fullyQualifiedTypeName name="model.SiteEVLogic"/>
-    <fullyQualifiedTypeName name="java.io.Serializable"/>
     <fullyQualifiedTypeName name="java.io.PrintWriter"/>
     <fullyQualifiedTypeName name="model.LoginLogic"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
@@ -32,4 +31,5 @@
     <fullyQualifiedTypeName name="dao.MutterDAO"/>
     <fullyQualifiedTypeName name="model.GetMutterLogic"/>
     <fullyQualifiedTypeName name="model.Mutter"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
 </qualifiedTypeNameHistroy>

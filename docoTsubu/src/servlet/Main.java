@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.GetMutterListLogic;
-import model.Mutter;
-import model.PostMutterLogic;
-import model.User;
+import model.entity.Mutter;
+import model.entity.User;
+import model.logic.GetMutterListLogic;
+import model.logic.PostMutterLogic;
 
 
 @WebServlet("/Main")

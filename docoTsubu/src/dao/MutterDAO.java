@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Mutter;
+import model.entity.Mutter;
 
 public class MutterDAO {
 
@@ -56,7 +56,7 @@ public class MutterDAO {
 		return true;
 	}
 
-	public Mutter findEach (int mutterId, String jdbcUrl, String dbUser, String dbPass) {
+	public Mutter findEach (int mutterId, String jdbcUrl, String dbUser, String dbPass){
 		Mutter mutter = null;
 
 		try(Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass)) {
@@ -72,8 +72,7 @@ public class MutterDAO {
 				String text = rs.getString("TEXT");
 				mutter = new Mutter(id, name, text);
 			} else {
-				//このメッセージを表示させたい。
-				String errorMsg = "指定のつぶやきは存在しません。";
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

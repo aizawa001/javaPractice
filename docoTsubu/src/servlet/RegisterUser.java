@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.RegisterUserLogic;
-import model.User;
+import model.entity.User;
+import model.logic.RegisterUserLogic;
 
 @WebServlet("/RegisterUser")
 public class RegisterUser extends HttpServlet {
@@ -24,20 +24,23 @@ public class RegisterUser extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getParameter("action");
+		String para = request.getParameter("para");
 
-		if (action == null) {
+		if (para.equals("0")) {
+			String id = request.getParameter("id");
 			String name = request.getParameter("name");
 			String pass = request.getParameter("pass");
-			User registerUser = new User(name,pass);
+			User registerUser = new User(id,name,pass);
 			request.setAttribute("registerUser", registerUser);
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerConfirm.jsp");
 			dispatcher.forward(request, response);
-		} else if (action.equals("done")) {
+
+		} else if (para.equals("1")) {
+			String id = request.getParameter("id");
 			String name = request.getParameter("name");
 			String pass = request.getParameter("pass");
-			User registerUser = new User(name,pass);
+			User registerUser = new User(id,name,pass);
 
 			ServletContext application = getServletContext();
 			String jdbcUrl = (String) application.getAttribute("jdbcUrl");
@@ -45,8 +48,11 @@ public class RegisterUser extends HttpServlet {
 			String dbPass = (String) application.getAttribute("dbPass");
 
 			RegisterUserLogic registerUserLogic = new RegisterUserLogic();
-			boolean flag;
-			flag = registerUserLogic.execute(registerUser, jdbcUrl, dbUser, dbPass);
+			boolean flag = registerUserLogic.execute(registerUser, jdbcUrl, dbUser, dbPass);
+			request.setAttribute("flag", flag);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
+			dispatcher.forward(request, response);
 
 		}
 	}

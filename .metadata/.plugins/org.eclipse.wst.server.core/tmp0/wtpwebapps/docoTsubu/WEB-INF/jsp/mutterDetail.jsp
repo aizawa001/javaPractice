@@ -14,5 +14,6 @@
 <c:out value="${mutter.userName }"/>:
 <c:out value="${mutter.text }"/>
 </p>
+<p><a href="/docoTsubu/Main">戻る</a></p>
 </body>
 </html>

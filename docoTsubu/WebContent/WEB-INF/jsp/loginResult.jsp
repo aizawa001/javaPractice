@@ -18,6 +18,14 @@
 	</c:when>
 	<c:otherwise>
 		<p>ログインに失敗しました</p>
+		<c:choose>
+		<c:when test="${empty loginUser }">
+			<p>${errorMsg }</p>
+		</c:when>
+		<c:otherwise>
+			<p>データベースに異常が発生しました</p>
+		</c:otherwise>
+		</c:choose>
 	<a href="/docoTsubu/">トップへ</a>
 	</c:otherwise>
 </c:choose>

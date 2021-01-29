@@ -9,10 +9,12 @@
 </head>
 <body>
 <h1>新規登録確認画面</h1>
-<form action="/docoTsubu/RegisterUser" method="post" action="done">
-名前：<input type="text" name="name" value=${registerUser.name }><br>
-パスワード：<input type="password" name="pass" value=${registerUser.pass }><br>
-<input type="submit" value="確認">
+<form action="/docoTsubu/RegisterUser?para=1" method="post">
+ID：<input type="text" name="id" value=${registerUser.id } readonly><br>
+名前：<input type="text" name="name" value=${registerUser.name } readonly><br>
+<input type="hidden" name="pass" value=${registerUser.pass }>
+<input type="submit" value="登録">
 </form>
+<p><a href="/docoTsubu/RegisterUser">戻る</a></p>
 </body>
 </html>

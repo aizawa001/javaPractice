@@ -6,51 +6,47 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.User;
+import model.entity.User;
 
 public class UserDAO {
 
-	public User findUser (User user, String jdbcUrl, String dbUser, String dbPass) {
+	public User findUser (User user, String jdbcUrl, String dbUser, String dbPass) throws SQLException {
 		User loginUser = null;
 		try(Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass)) {
 			String sql =
-					"SELECT * FROM USER WHERE ID=? AND PASS=?";
+					"SELECT * FROM USERS WHERE ID=? AND PASS=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, user.getId());
+			pStmt.setString(1, user.getId());
 			pStmt.setString(2, user.getPass());
 			ResultSet rs = pStmt.executeQuery();
 
 			if (rs.next()) {
-				int id = rs.getInt("ID");
+				String id = rs.getString("ID");
 				String name = rs.getString("NAME");
 				String pass = rs.getString("PASS");
 				loginUser = new User(id, name, pass);
 			} else {
-				//このメッセージを表示させたい。
-				String errorMsg = "指定のユーザーは存在しません。";
+				return null;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
+			throw e;
 		}
 		return loginUser;
 	}
 
-	public boolean createUser (User user, String jdbcUrl, String dbUser, String dbPass) {
+	public int createUser (User user, String jdbcUrl, String dbUser, String dbPass) {
 		try(Connection conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass)) {
-			String sql = "INSERT INTO USER(NAME,PASS) VALUES(?,?)";
+			String sql = "INSERT INTO USERS(ID,NAME,PASS) VALUES(?,?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, user.getName());
-			pStmt.setString(2, user.getPass());
-
+			pStmt.setString(1, user.getId());
+			pStmt.setString(2, user.getName());
+			pStmt.setString(3, user.getPass());
+			//更新されていたら１を返す
 			int result = pStmt.executeUpdate();
-			if (result != 1) {
-				return false;
-			}
+			return result;
 		}catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return 0;
 		}
-		return true;
 	}
 }

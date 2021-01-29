@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.GetMutterLogic;
-import model.Mutter;
+import model.entity.Mutter;
+import model.logic.GetMutterLogic;
 
 @WebServlet("/MutterDetail")
 public class MutterDetail extends HttpServlet {
